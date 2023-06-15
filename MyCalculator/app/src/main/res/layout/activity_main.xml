@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tvInput"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:background="@color/lightGrey"
@@ -29,6 +30,7 @@
             android:text="@string/seven"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
+            android:onClick="onDigit"
             />
         <Button
             android:id="@+id/btn8"
@@ -38,6 +40,7 @@
             android:text="@string/eight"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
+            android:onClick="onDigit"
             />
         <Button
             android:id="@+id/btn9"
@@ -47,6 +50,7 @@
             android:text="@string/nine"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
+            android:onClick="onDigit"
             />
         <Button
             android:id="@+id/btnDivide"
@@ -73,6 +77,7 @@
             android:text="@string/four"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
+            android:onClick="onDigit"
             />
         <Button
             android:id="@+id/btn5"
@@ -82,6 +87,7 @@
             android:text="@string/five"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
+            android:onClick="onDigit"
             />
         <Button
             android:id="@+id/btn6"
@@ -91,6 +97,7 @@
             android:text="@string/six"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
+            android:onClick="onDigit"
             />
         <Button
             android:id="@+id/btnMultiply"
@@ -117,6 +124,7 @@
             android:text="@string/one"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
+            android:onClick="onDigit"
             />
         <Button
             android:id="@+id/btn2"
@@ -126,6 +134,7 @@
             android:text="@string/two"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
+            android:onClick="onDigit"
             />
         <Button
             android:id="@+id/btn3"
@@ -135,6 +144,7 @@
             android:text="@string/three"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
+            android:onClick="onDigit"
             />
         <Button
             android:id="@+id/btnMinus"
@@ -161,6 +171,7 @@
             android:text="@string/zero"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
+            android:onClick="onDigit"
             />
         <Button
             android:id="@+id/btnClr"
@@ -170,6 +181,7 @@
             android:text="@string/clr"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
+            android:onClick="onClear"
             />
         <Button
             android:id="@+id/btnPlus"
