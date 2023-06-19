@@ -164,10 +164,20 @@
         android:layout_weight="1"
         >
         <Button
+            android:id="@+id/btnDot"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/dot"
+            android:layout_margin="2dp"
+            style="?android:attr/buttonStyle"
+            android:onClick="onDecimalPoint"
+            />
+        <Button
             android:id="@+id/btn0"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:text="@string/zero"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
