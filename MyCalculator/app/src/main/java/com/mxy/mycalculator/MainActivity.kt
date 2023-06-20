@@ -37,4 +37,23 @@ class MainActivity : AppCompatActivity() {
             isLastDot = true
         }
     }
+
+    fun onOperator(view: View) {
+        tvInput?.text?.let {
+            if (isLastNumeric && !isOperatorAdded(it.toString())) {
+                tvInput?.append((view as Button).text)
+                isLastNumeric = false
+                isLastDot = false
+            }
+        }
+
+    }
+
+    private fun isOperatorAdded(value: String): Boolean {
+        return if (value.startsWith("-")) {
+            false
+        } else {
+            value.contains("/") || value.contains("*") || value.contains("+") || value.contains("-")
+        }
+    }
 }
