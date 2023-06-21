@@ -156,7 +156,7 @@
             android:text="@string/minus"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
-            android:onClick="onOperator"
+            android:onClick="onMinus"
             />
     </LinearLayout>
 
@@ -184,7 +184,7 @@
             android:text="@string/zero"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
-            android:onClick="onDigit"
+            android:onClick="onZero"
             />
         <Button
             android:id="@+id/btnClr"
@@ -222,6 +222,7 @@
             android:text="@string/equal"
             android:layout_margin="2dp"
             style="?android:attr/buttonStyle"
+            android:onClick="onEqual"
             />
     </LinearLayout>
 
