@@ -1,13 +1,17 @@
 package com.mxy.myquizapp
 
+import android.annotation.SuppressLint
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 
-class QuizQuestionsActivity : AppCompatActivity() {
+class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private var pbProgress: ProgressBar? = null
     private var tvProgress: TextView? = null
     private var tvQuestion: TextView? = null
@@ -19,6 +23,7 @@ class QuizQuestionsActivity : AppCompatActivity() {
     private var btnSubmit: Button? = null
     private val questions = Constants.getQuestions()
     private var currentQuestionNumber = 1
+    private var selectedOption = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +39,16 @@ class QuizQuestionsActivity : AppCompatActivity() {
         tvOptionFour = findViewById(R.id.tv_option_four)
         btnSubmit = findViewById(R.id.btn_submit)
 
+        tvOptionOne?.setOnClickListener(this)
+        tvOptionTwo?.setOnClickListener(this)
+        tvOptionThree?.setOnClickListener(this)
+        tvOptionFour?.setOnClickListener(this)
+        btnSubmit?.setOnClickListener(this)
+
+        setQuestion()
+    }
+
+    private fun setQuestion() {
         val currentQuestion = questions[currentQuestionNumber - 1]
         pbProgress?.progress = currentQuestionNumber
         tvProgress?.text = "$currentQuestionNumber/9"
@@ -43,5 +58,55 @@ class QuizQuestionsActivity : AppCompatActivity() {
         tvOptionTwo?.text = currentQuestion.optionTwo
         tvOptionThree?.text = currentQuestion.optionThree
         tvOptionFour?.text = currentQuestion.optionFour
+    }
+
+    private fun updateOptions(selected: Int) {
+        selectedOption = selected
+
+        if (selected == 1) {
+            tvOptionOne?.setTextColor(ContextCompat.getColor(this, R.color.nearBlack))
+            tvOptionOne?.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border_bg)
+        } else {
+            tvOptionOne?.setTextColor(ContextCompat.getColor(this, R.color.gray))
+            tvOptionOne?.background = ContextCompat.getDrawable(this, R.drawable.default_option_border_bg)
+        }
+
+        if (selected == 2) {
+            tvOptionTwo?.setTextColor(ContextCompat.getColor(this, R.color.nearBlack))
+            tvOptionTwo?.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border_bg)
+        } else {
+            tvOptionTwo?.setTextColor(ContextCompat.getColor(this, R.color.gray))
+            tvOptionTwo?.background = ContextCompat.getDrawable(this, R.drawable.default_option_border_bg)
+        }
+
+        if (selected == 3) {
+            tvOptionThree?.setTextColor(ContextCompat.getColor(this, R.color.nearBlack))
+            tvOptionThree?.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border_bg)
+        } else {
+            tvOptionThree?.setTextColor(ContextCompat.getColor(this, R.color.gray))
+            tvOptionThree?.background = ContextCompat.getDrawable(this, R.drawable.default_option_border_bg)
+        }
+
+        if (selected == 4) {
+            tvOptionFour?.setTextColor(ContextCompat.getColor(this, R.color.nearBlack))
+            tvOptionFour?.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border_bg)
+        } else {
+            tvOptionFour?.setTextColor(ContextCompat.getColor(this, R.color.gray))
+            tvOptionFour?.background = ContextCompat.getDrawable(this, R.drawable.default_option_border_bg)
+        }
+    }
+
+    private fun onSubmit() {
+        TODO()
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id) {
+            R.id.tv_option_one -> updateOptions(1)
+            R.id.tv_option_two -> updateOptions(2)
+            R.id.tv_option_three -> updateOptions(3)
+            R.id.tv_option_four -> updateOptions(4)
+            R.id.btn_submit -> onSubmit()
+        }
     }
 }
