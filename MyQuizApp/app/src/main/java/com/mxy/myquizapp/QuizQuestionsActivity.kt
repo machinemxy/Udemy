@@ -1,7 +1,5 @@
 package com.mxy.myquizapp
 
-import android.annotation.SuppressLint
-import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -9,6 +7,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 
 class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
@@ -24,6 +23,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private val questions = Constants.getQuestions()
     private var currentQuestionNumber = 1
     private var selectedOption = 0
+    private var checkedCorrectAnswer = false
+    private var score = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +49,16 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
         setQuestion()
     }
 
+    override fun onClick(v: View?) {
+        when(v?.id) {
+            R.id.tv_option_one -> updateOptions(1)
+            R.id.tv_option_two -> updateOptions(2)
+            R.id.tv_option_three -> updateOptions(3)
+            R.id.tv_option_four -> updateOptions(4)
+            R.id.btn_submit -> onSubmit()
+        }
+    }
+
     private fun setQuestion() {
         val currentQuestion = questions[currentQuestionNumber - 1]
         pbProgress?.progress = currentQuestionNumber
@@ -61,6 +72,8 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun updateOptions(selected: Int) {
+        if (checkedCorrectAnswer) { return }
+
         selectedOption = selected
 
         if (selected == 1) {
@@ -97,16 +110,37 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun onSubmit() {
-        TODO()
-    }
-
-    override fun onClick(v: View?) {
-        when(v?.id) {
-            R.id.tv_option_one -> updateOptions(1)
-            R.id.tv_option_two -> updateOptions(2)
-            R.id.tv_option_three -> updateOptions(3)
-            R.id.tv_option_four -> updateOptions(4)
-            R.id.btn_submit -> onSubmit()
+        if (checkedCorrectAnswer) {
+            if (currentQuestionNumber == 9) {
+                Toast.makeText(this, "Your final score: $score", Toast.LENGTH_SHORT).show()
+            } else {
+                currentQuestionNumber++
+                selectedOption = 0
+                checkedCorrectAnswer = false
+                setQuestion()
+                updateOptions(0)
+                btnSubmit?.text = "SUBMIT"
+            }
+        } else {
+            checkedCorrectAnswer = true
+            btnSubmit?.text = "NEXT"
+            val currentQuestion = questions[currentQuestionNumber - 1]
+            if (selectedOption != currentQuestion.correctAnswer) {
+                when (selectedOption) {
+                    1 -> tvOptionOne?.background = ContextCompat.getDrawable(this, R.drawable.wrong_option_border_bg)
+                    2 -> tvOptionTwo?.background = ContextCompat.getDrawable(this, R.drawable.wrong_option_border_bg)
+                    3 -> tvOptionThree?.background = ContextCompat.getDrawable(this, R.drawable.wrong_option_border_bg)
+                    4 -> tvOptionFour?.background = ContextCompat.getDrawable(this, R.drawable.wrong_option_border_bg)
+                }
+            } else {
+                score++
+            }
+            when (currentQuestion.correctAnswer) {
+                1 -> tvOptionOne?.background = ContextCompat.getDrawable(this, R.drawable.correct_option_border_bg)
+                2 -> tvOptionTwo?.background = ContextCompat.getDrawable(this, R.drawable.correct_option_border_bg)
+                3 -> tvOptionThree?.background = ContextCompat.getDrawable(this, R.drawable.correct_option_border_bg)
+                4 -> tvOptionFour?.background = ContextCompat.getDrawable(this, R.drawable.correct_option_border_bg)
+            }
         }
     }
 }
