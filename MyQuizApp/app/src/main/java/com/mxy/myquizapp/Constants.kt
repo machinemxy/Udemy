@@ -1,6 +1,9 @@
 package com.mxy.myquizapp
 
 object Constants {
+    const val USER_NAME = "USER_NAME"
+    const val SCORE = "SCORE"
+
     fun getQuestions(): ArrayList<Question> {
         val questionsList = ArrayList<Question>()
 

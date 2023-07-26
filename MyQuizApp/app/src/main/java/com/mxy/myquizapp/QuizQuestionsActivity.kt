@@ -1,5 +1,6 @@
 package com.mxy.myquizapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,7 +8,6 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 
 class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
@@ -112,7 +112,11 @@ class QuizQuestionsActivity : AppCompatActivity(), View.OnClickListener {
     private fun onSubmit() {
         if (checkedCorrectAnswer) {
             if (currentQuestionNumber == 9) {
-                Toast.makeText(this, "Your final score: $score", Toast.LENGTH_SHORT).show()
+                val newIntent = Intent(this, ResultActivity::class.java)
+                newIntent.putExtra(Constants.USER_NAME, intent.getStringExtra(Constants.USER_NAME))
+                newIntent.putExtra(Constants.SCORE, score)
+                startActivity(newIntent)
+                finish()
             } else {
                 currentQuestionNumber++
                 selectedOption = 0
