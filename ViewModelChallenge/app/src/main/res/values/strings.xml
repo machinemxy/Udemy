@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ViewModelChallenge</string>
+    <string name="add">ADD</string>
 </resources>
