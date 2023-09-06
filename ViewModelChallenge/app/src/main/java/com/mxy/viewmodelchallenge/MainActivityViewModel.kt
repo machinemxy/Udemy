@@ -7,8 +7,14 @@ import androidx.lifecycle.ViewModel
 class MainActivityViewModel(startingTotal: Int): ViewModel() {
     private val _sum = MutableLiveData(startingTotal)
     val sum: LiveData<Int> get() = _sum
+    val addNum = MutableLiveData("")
 
-    fun add(value: Int) {
-        _sum.value = _sum.value?.plus(value)
+    fun add() {
+        addNum.value?.let {
+            if (it.isNotEmpty()) {
+                _sum.value = _sum.value?.plus(it.toInt())
+                addNum.value = ""
+            }
+        }
     }
 }

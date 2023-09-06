@@ -18,18 +18,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         viewModelFactory = MainActivityViewModelFactory(666)
         viewModel = ViewModelProvider(this, viewModelFactory)[MainActivityViewModel::class.java]
-        viewModel.sum.observe(this, Observer {
-            binding.resultText.text = it.toString()
-        })
-        binding.addButton.setOnClickListener {
-            val strInput = binding.input.text.toString()
-            try {
-                val intInput = Integer.parseInt(strInput)
-                viewModel.add(intInput)
-                binding.input.text.clear()
-            } catch (e: Exception) {
-                println(e.message)
-            }
-        }
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
     }
 }
