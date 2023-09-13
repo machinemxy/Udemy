@@ -26,6 +26,16 @@ class EmailFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_email, container, false)
+        binding.submitButton.setOnClickListener {
+            val email = binding.emailEditText.text.toString()
+            if (email.isEmpty()) {
+                Toast.makeText(activity, "No email", Toast.LENGTH_SHORT).show()
+            } else {
+                val name = arguments?.getString("name") ?: ""
+                val bundle = bundleOf("name" to name, "email" to email)
+                it.findNavController().navigate(R.id.action_emailFragment_to_welcomeFragment, bundle)
+            }
+        }
         return binding.root
     }
 }

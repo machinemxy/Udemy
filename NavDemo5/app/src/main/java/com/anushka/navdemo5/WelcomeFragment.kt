@@ -22,6 +22,13 @@ class WelcomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_welcome, container, false)
+        val name = arguments?.getString("name")
+        val email = arguments?.getString("email")
+        binding.nameTextView.text = name
+        binding.emailTextView.text = email
+        binding.viewTermsButton.setOnClickListener {
+            it.findNavController().navigate(R.id.action_welcomeFragment_to_termsFragment)
+        }
         return binding.root
     }
 }
