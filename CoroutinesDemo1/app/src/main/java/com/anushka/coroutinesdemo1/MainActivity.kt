@@ -31,6 +31,14 @@ class MainActivity : AppCompatActivity() {
                 downloadUserData()
             }
         }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.i("MyTag", "Thread: ${Thread.currentThread().name}")
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            Log.i("MyTag", "Thread: ${Thread.currentThread().name}")
+        }
     }
 
     private fun downloadUserData() {
