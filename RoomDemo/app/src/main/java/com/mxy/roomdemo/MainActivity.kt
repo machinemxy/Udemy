@@ -1,20 +1,36 @@
 package com.mxy.roomdemo
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.mxy.roomdemo.databinding.ActivityMainBinding
+import com.mxy.roomdemo.db.SubscriberDatabase
+import com.mxy.roomdemo.db.SubscriberRepository
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var subscriberViewModel: SubscriberViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val dao = SubscriberDatabase.getInstance(application).subscriberDAO
+        val repository = SubscriberRepository(dao)
+        val factory = SubscriberViewModelFactory(repository)
+        subscriberViewModel = ViewModelProvider(this, factory)[SubscriberViewModel::class.java]
+        binding.viewModel = subscriberViewModel
+        binding.lifecycleOwner = this
+
+        displaySubscribersList()
+    }
+
+    private fun displaySubscribersList() {
+        subscriberViewModel.subscribers.observe(this, Observer {
+            Log.i("MATAG", it.toString())
+        })
     }
 }
