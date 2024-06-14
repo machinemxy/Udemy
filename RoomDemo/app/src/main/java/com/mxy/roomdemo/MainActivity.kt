@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mxy.roomdemo.databinding.ActivityMainBinding
+import com.mxy.roomdemo.db.Subscriber
 import com.mxy.roomdemo.db.SubscriberDatabase
 import com.mxy.roomdemo.db.SubscriberRepository
 
@@ -37,7 +38,13 @@ class MainActivity : AppCompatActivity() {
     private fun displaySubscribersList() {
         subscriberViewModel.subscribers.observe(this, Observer {
             Log.i("MATAG", it.toString())
-            binding.subscriberRecyclerView.adapter = SubscriberRecyclerViewAdapter(it)
+            binding.subscriberRecyclerView.adapter = SubscriberRecyclerViewAdapter(it) { selectedItem: Subscriber ->
+                listItemClicked(selectedItem)
+            }
         })
+    }
+
+    private fun listItemClicked(subscriber: Subscriber) {
+       subscriberViewModel.initUpdateAndDelete(subscriber)
     }
 }
