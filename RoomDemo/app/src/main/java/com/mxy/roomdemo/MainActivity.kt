@@ -26,8 +26,12 @@ class MainActivity : AppCompatActivity() {
         subscriberViewModel = ViewModelProvider(this, factory)[SubscriberViewModel::class.java]
         binding.viewModel = subscriberViewModel
         binding.lifecycleOwner = this
-
         initRecyclerView()
+        subscriberViewModel.statusMessage.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun initRecyclerView() {

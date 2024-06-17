@@ -15,6 +15,7 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
     val inputEmail = MutableLiveData<String>()
     val saveOrUpdateButtonText = MutableLiveData<String>("Save")
     val clearAllOrDeleteButtonText = MutableLiveData<String>("Clear All")
+    val statusMessage = MutableLiveData<Event<String>>()
     var subscriberToUpdateOrDelete: Subscriber? = null
 
     fun saveOrUpdate() {
@@ -41,6 +42,7 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
             withContext(Dispatchers.Main) {
                 inputName.value = ""
                 inputEmail.value = ""
+                statusMessage.value = Event("Inserted successfully!")
             }
         }
     }
@@ -54,6 +56,7 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
                 subscriberToUpdateOrDelete = null
                 saveOrUpdateButtonText.value = "Save"
                 clearAllOrDeleteButtonText.value = "Clear All"
+                statusMessage.value = Event("Updated successfully!")
             }
         }
     }
@@ -67,6 +70,7 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
                 subscriberToUpdateOrDelete = null
                 saveOrUpdateButtonText.value = "Save"
                 clearAllOrDeleteButtonText.value = "Clear All"
+                statusMessage.value = Event("Deleted successfully!")
             }
         }
     }
@@ -74,6 +78,9 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
     fun clearAll() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAll()
+            withContext(Dispatchers.Main) {
+                statusMessage.value = Event("Cleared successfully!")
+            }
         }
     }
 
