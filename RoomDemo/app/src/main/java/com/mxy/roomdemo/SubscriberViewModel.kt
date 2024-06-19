@@ -1,5 +1,6 @@
 package com.mxy.roomdemo
 
+import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,12 +20,22 @@ class SubscriberViewModel(private val repository: SubscriberRepository): ViewMod
     var subscriberToUpdateOrDelete: Subscriber? = null
 
     fun saveOrUpdate() {
-        subscriberToUpdateOrDelete?.let {
-            it.name = inputName.value ?: ""
-            it.email = inputEmail.value ?: ""
-            update(it)
-        } ?: run {
-            insert(Subscriber(0, inputName.value ?: "", inputEmail.value ?: ""))
+        val inputNameValue = inputName.value ?: ""
+        val inputEmailValue = inputEmail.value ?: ""
+        if (inputNameValue.isBlank()) {
+            statusMessage.value = Event("Please input name!")
+        } else if (inputEmailValue.isBlank()) {
+            statusMessage.value = Event("Please input email!")
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(inputEmailValue).matches()) {
+            statusMessage.value = Event("Invalid email!")
+        } else {
+            subscriberToUpdateOrDelete?.let {
+                it.name = inputNameValue
+                it.email = inputEmailValue
+                update(it)
+            } ?: run {
+                insert(Subscriber(0, inputNameValue, inputEmailValue))
+            }
         }
     }
 
