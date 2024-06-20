@@ -16,6 +16,7 @@ import com.mxy.roomdemo.db.SubscriberRepository
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var subscriberViewModel: SubscriberViewModel
+    private lateinit var adapter: SubscriberRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,15 +37,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         binding.subscriberRecyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = SubscriberRecyclerViewAdapter { selectedItem: Subscriber ->
+            listItemClicked(selectedItem)
+        }
+        binding.subscriberRecyclerView.adapter = adapter
         displaySubscribersList()
     }
 
     private fun displaySubscribersList() {
         subscriberViewModel.subscribers.observe(this, Observer {
             Log.i("MATAG", it.toString())
-            binding.subscriberRecyclerView.adapter = SubscriberRecyclerViewAdapter(it) { selectedItem: Subscriber ->
-                listItemClicked(selectedItem)
-            }
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
         })
     }
 
