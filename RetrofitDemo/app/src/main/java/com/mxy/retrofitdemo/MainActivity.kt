@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val textView = findViewById<TextView>(R.id.textView)
         val retService = RetrofitInstance.getRetrofitInstance().create(AlbumService::class.java)
         val responseLiveData = liveData {
-            val response = retService.getAlbums()
+            val response = retService.getAlbumsByUserId(3)
             emit(response)
         }
         responseLiveData.observe( this, Observer {
