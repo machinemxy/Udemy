@@ -13,6 +13,8 @@ import androidx.lifecycle.liveData
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var retService: AlbumService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val textView = findViewById<TextView>(R.id.textView)
-        val retService = RetrofitInstance.getRetrofitInstance().create(AlbumService::class.java)
+        retService = RetrofitInstance.getRetrofitInstance().create(AlbumService::class.java)
         val responseLiveData = liveData {
             val response = retService.getAlbumsByUserId(3)
             emit(response)
@@ -39,6 +41,18 @@ class MainActivity : AppCompatActivity() {
                     textView.append("title: ${albumsItem.title}\n\n")
                 }
             }
+        })
+    }
+
+    private fun uploadAlbum() {
+        val album = AlbumsItem(0, "Title", 1)
+        val postResponse: LiveData<Response<AlbumsItem>> = liveData {
+            val response = retService.uploadAlbum(album)
+            emit(response)
+        }
+        postResponse.observe(this, Observer {
+            val receivedAlbumsItem = it.body()
+            Log.i("MYTAG", "${receivedAlbumsItem?.title}")
         })
     }
 }
