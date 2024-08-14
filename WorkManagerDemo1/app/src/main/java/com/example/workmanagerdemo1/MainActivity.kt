@@ -1,6 +1,7 @@
 package com.example.workmanagerdemo1
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,8 @@ import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 
 class MainActivity : AppCompatActivity() {
+    lateinit var startButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -19,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val startButton = findViewById<Button>(R.id.start_button)
+        startButton = findViewById<Button>(R.id.start_button)
         startButton.setOnClickListener {
             setOneTimeWorkRequest()
         }
@@ -28,7 +31,11 @@ class MainActivity : AppCompatActivity() {
     private fun setOneTimeWorkRequest() {
         val uploadRequest = OneTimeWorkRequest.Builder(UploadWorker::class.java)
             .build()
-        WorkManager.getInstance(applicationContext)
-            .enqueue(uploadRequest)
+        val workManager = WorkManager.getInstance(applicationContext)
+        workManager.enqueue(uploadRequest)
+        workManager.getWorkInfoByIdLiveData(uploadRequest.id)
+            .observe(this) {
+                Log.i("MY_TAG", it.state.name)
+            }
     }
 }
