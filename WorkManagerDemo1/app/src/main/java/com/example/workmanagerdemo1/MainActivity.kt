@@ -3,16 +3,22 @@ package com.example.workmanagerdemo1
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.work.Constraints
+import androidx.work.Data
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        const val KEY_COUNT_VALUE = "key_count"
+    }
+
     lateinit var startButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,17 +38,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOneTimeWorkRequest() {
         val workManager = WorkManager.getInstance(applicationContext)
+
         val constraints = Constraints.Builder()
             .setRequiresCharging(true)
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
-        val uploadRequest = OneTimeWorkRequest.Builder(UploadWorker::class.java)
-            .setConstraints(constraints)
+
+        val inputData: Data = Data.Builder()
+            .putInt(KEY_COUNT_VALUE, 125)
             .build()
+
+        val uploadRequest = OneTimeWorkRequest.Builder(UploadWorker::class.java)
+            //.setConstraints(constraints)
+            .setInputData(inputData)
+            .build()
+
         workManager.enqueue(uploadRequest)
         workManager.getWorkInfoByIdLiveData(uploadRequest.id)
             .observe(this) {
                 Log.i("MY_TAG", it.state.name)
+                if (it.state.isFinished) {
+                    val outputData = it.outputData
+                    val message = outputData.getString(UploadWorker.KEY_WORKER)
+                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+                }
             }
     }
 }
