@@ -53,7 +53,19 @@ class MainActivity : AppCompatActivity() {
             .setInputData(inputData)
             .build()
 
-        workManager.enqueue(uploadRequest)
+        val filterRequest = OneTimeWorkRequest.Builder(FilterWorker::class.java)
+            .build()
+
+        val compressRequest = OneTimeWorkRequest.Builder(CompressWorker::class.java)
+            .build()
+
+        val parallelRequest = listOf(filterRequest, compressRequest)
+
+        workManager
+            .beginWith(parallelRequest)
+            .then(uploadRequest)
+            .enqueue()
+
         workManager.getWorkInfoByIdLiveData(uploadRequest.id)
             .observe(this) {
                 Log.i("MY_TAG", it.state.name)
