@@ -12,7 +12,9 @@ import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         startButton = findViewById<Button>(R.id.start_button)
         startButton.setOnClickListener {
             setOneTimeWorkRequest()
+            setPeriodicWorkRequest()
         }
     }
 
@@ -75,5 +78,12 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private fun setPeriodicWorkRequest() {
+        val periodicWorkRequest = PeriodicWorkRequest
+            .Builder(CompressWorker::class.java, 15, TimeUnit.MINUTES)
+            .build()
+        WorkManager.getInstance(applicationContext).enqueue(periodicWorkRequest)
     }
 }
