@@ -5,9 +5,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var smartPhone: SmartPhone
+    @Inject
+    lateinit var smartPhone: SmartPhone
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         DaggerSmartPhoneComponent.create()
-            .getSmartPhone()
-            .makeACallWithRecording()
+            .inject(this)
+        smartPhone.makeACallWithRecording()
     }
 }
