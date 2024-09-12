@@ -21,7 +21,9 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        DaggerSmartPhoneComponent.create()
+        DaggerSmartPhoneComponent.builder()
+            .memoryCardModule(MemoryCardModule(1000))
+            .build()
             .inject(this)
         smartPhone.makeACallWithRecording()
     }
