@@ -6,6 +6,6 @@ import com.example.tmdbclient.data.dao.MovieDao
 import com.example.tmdbclient.data.model.Movie
 
 @Database(entities = [Movie::class], version = 1, exportSchema = false)
-abstract class RoomDatabase: RoomDatabase() {
+abstract class TMDBDatabase: RoomDatabase() {
     abstract fun movieDao(): MovieDao
 }
