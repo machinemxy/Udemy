@@ -2,6 +2,8 @@ package com.example.tmdbclient.presentation
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -13,6 +15,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.Visibility
 import com.example.tmdbclient.R
 import com.example.tmdbclient.databinding.ActivityMovieBinding
 import com.example.tmdbclient.presentation.di.Injector
@@ -27,7 +30,7 @@ class MovieActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        // enableEdgeToEdge()
         setContentView(R.layout.activity_movie)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -40,6 +43,9 @@ class MovieActivity : AppCompatActivity() {
         movieViewModel = ViewModelProvider(this, factory)
             .get(MovieViewModel::class.java)
         initRecyclerView()
+        binding.updateButton.setOnClickListener {
+            updateMovies()
+        }
     }
 
     private fun initRecyclerView() {
@@ -62,6 +68,18 @@ class MovieActivity : AppCompatActivity() {
                 binding.movieProgressBar.visibility = View.GONE
                 Toast.makeText(applicationContext, "No data available", Toast.LENGTH_LONG).show()
             }
+        })
+    }
+
+    private fun updateMovies() {
+        binding.movieProgressBar.visibility = View.VISIBLE
+        val response = movieViewModel.updateMovies()
+        response.observe(this, Observer {
+            it?.let {
+                adapter.setList(it)
+                adapter.notifyDataSetChanged()
+            }
+            binding.movieProgressBar.visibility = View.GONE
         })
     }
 }
