@@ -2,12 +2,8 @@ package com.example.tmdbclient.presentation
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,7 +11,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.Visibility
 import com.example.tmdbclient.R
 import com.example.tmdbclient.databinding.ActivityMovieBinding
 import com.example.tmdbclient.presentation.di.Injector
