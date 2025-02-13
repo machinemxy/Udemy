@@ -13,13 +13,18 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
+        android.buildFeatures.buildConfig = true
+        val myApi: String by project
+        val myUrl: String by project
+        buildConfigField("String", "API_KEY", myApi)
+        buildConfigField("String", "BASE_URL", myUrl)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
