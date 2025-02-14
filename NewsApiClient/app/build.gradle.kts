@@ -14,10 +14,10 @@ android {
         versionCode = 1
         versionName = "1.0"
         android.buildFeatures.buildConfig = true
-        val myApi: String by project
-        val myUrl: String by project
-        buildConfigField("String", "API_KEY", myApi)
-        buildConfigField("String", "BASE_URL", myUrl)
+        val apiKey: String by project
+        val baseUrl: String by project
+        buildConfigField("String", "API_KEY", apiKey)
+        buildConfigField("String", "BASE_URL", baseUrl)
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
