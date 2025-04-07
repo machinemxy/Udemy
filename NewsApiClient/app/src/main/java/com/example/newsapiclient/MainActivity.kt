@@ -21,7 +21,5 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val tv1: TextView = findViewById(R.id.tv1)
-        tv1.text = BuildConfig.API_KEY
     }
 }
