@@ -1,15 +1,20 @@
 package com.example.composestatedemo
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.composestatedemo.ui.theme.ComposeStateDemoTheme
 
@@ -19,29 +24,32 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ComposeStateDemoTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    MyButton()
                 }
+
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+val count = mutableIntStateOf(0)
 
-@Preview(showBackground = true)
+@Preview(name = "MyButton")
 @Composable
-fun GreetingPreview() {
-    ComposeStateDemoTheme {
-        Greeting("Android")
+fun MyButton() {
+    val context = LocalContext.current
+    Button(
+        onClick = {
+            count.intValue = count.intValue + 1
+            Toast.makeText(context, "Count is ${count.intValue}", Toast.LENGTH_SHORT).show()
+        }
+    ) {
+        Text("Count is ${count.intValue}")
     }
 }
