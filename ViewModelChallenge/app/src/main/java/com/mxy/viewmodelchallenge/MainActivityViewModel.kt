@@ -1,20 +1,20 @@
 package com.mxy.viewmodelchallenge
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class MainActivityViewModel(startingTotal: Int): ViewModel() {
-    private val _sum = MutableLiveData(startingTotal)
-    val sum: LiveData<Int> get() = _sum
-    val addNum = MutableLiveData("")
+    val addNum = MutableStateFlow<String>("")
+
+    private val _flowTotal = MutableStateFlow<Int>(startingTotal)
+    val flowTotal: StateFlow<Int>
+        get() = _flowTotal
 
     fun add() {
-        addNum.value?.let {
-            if (it.isNotEmpty()) {
-                _sum.value = _sum.value?.plus(it.toInt())
-                addNum.value = ""
-            }
+        if (addNum.value.isNotEmpty()) {
+            _flowTotal.value = (_flowTotal.value).plus(addNum.value.toInt())
+            addNum.value = ""
         }
     }
 }
