@@ -2,9 +2,12 @@ package com.mxy.viewmodelchallenge
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.mxy.viewmodelchallenge.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -18,5 +21,11 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, viewModelFactory)[MainActivityViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        lifecycleScope.launch {
+            viewModel.message.collect {
+                Toast.makeText(this@MainActivity, it, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
