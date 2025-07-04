@@ -16,9 +16,9 @@ fun BaseScreen(
 ) {
     val list = converterViewModel.getConversions()
 
-    Column(modifier = modifier.padding(30.dp)) {
-        TopScreen(list, modifier)
-        Spacer(modifier = modifier.height(20.dp))
+    Column(modifier = Modifier.padding(30.dp)) {
+        TopScreen(list)
+        Spacer(modifier = Modifier.height(20.dp))
         HistoryScreen()
     }
 }

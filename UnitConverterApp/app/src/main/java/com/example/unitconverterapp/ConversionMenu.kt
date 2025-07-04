@@ -28,7 +28,11 @@ import androidx.compose.ui.unit.toSize
 import kotlin.math.exp
 
 @Composable
-fun ConversionMenu(list: List<Conversion>, modifier: Modifier = Modifier) {
+fun ConversionMenu(
+    list: List<Conversion>,
+    modifier: Modifier = Modifier,
+    convert: (Conversion) -> Unit
+) {
     var displayingText by remember { mutableStateOf("Select the conversion type") }
     var expanded by remember { mutableStateOf(false) }
     var textFieldSize by remember { mutableStateOf(Size.Zero) }
@@ -67,6 +71,7 @@ fun ConversionMenu(list: List<Conversion>, modifier: Modifier = Modifier) {
                     onClick = {
                         displayingText = conversion.description
                         expanded = false
+                        convert(conversion)
                     },
                     text = { Text(
                         text = conversion.description,
