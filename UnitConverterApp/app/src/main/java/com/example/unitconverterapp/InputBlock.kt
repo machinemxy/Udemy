@@ -28,7 +28,7 @@ fun InputBlock(
     inputText: MutableState<String>,
     modifier: Modifier = Modifier,
     context: Context = LocalContext.current,
-    calculate: (String) -> Unit
+    calculate: (Double) -> Unit
 ) {
     Column(modifier = modifier.padding(0.dp, 20.dp, 0.dp, 0.dp)) {
         Row(modifier = modifier.fillMaxWidth()) {
@@ -56,10 +56,11 @@ fun InputBlock(
 
         OutlinedButton(
             onClick = {
-                if (inputText.value.isNotEmpty()) {
-                    calculate(inputText.value)
+                val doubleValue = inputText.value.toDoubleOrNull()
+                if (doubleValue != null) {
+                    calculate(doubleValue)
                 } else {
-                    Toast.makeText(context, "Please enter value", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Please enter correct value", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = modifier.fillMaxWidth()
