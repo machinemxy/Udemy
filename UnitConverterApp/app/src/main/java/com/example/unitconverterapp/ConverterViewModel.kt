@@ -23,4 +23,6 @@ class ConverterViewModel(private val repository: ConverterRepository): ViewModel
             repository.insertResult(ConversionResult(0, message1, message2))
         }
     }
+
+    val resultList = repository.getSavedResults()
 }
