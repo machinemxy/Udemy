@@ -9,6 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ConverterViewModel(private val repository: ConverterRepository): ViewModel() {
+    val resultList = repository.getSavedResults()
+
     fun getConversions() = listOf<Conversion>(
         Conversion(1, "Pounds to Kilograms", "lbs", "kg", 0.453592),
         Conversion(2, "Kilograms to Pounds", "kg", "lbs", 2.20462),
@@ -24,5 +26,15 @@ class ConverterViewModel(private val repository: ConverterRepository): ViewModel
         }
     }
 
-    val resultList = repository.getSavedResults()
+    fun removeResult(item: ConversionResult) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteResult(item)
+        }
+    }
+
+    fun clearAll() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteAllResults()
+        }
+    }
 }
