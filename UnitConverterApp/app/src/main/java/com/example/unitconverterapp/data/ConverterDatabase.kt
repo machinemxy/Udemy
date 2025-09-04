@@ -8,22 +8,4 @@ import androidx.room.RoomDatabase
 @Database(entities = [ConversionResult::class], version = 1)
 abstract class ConverterDatabase: RoomDatabase() {
     abstract val converterDao: ConverterDao
-
-    companion object {
-        @Volatile
-        private var INSTANCE: ConverterDatabase? = null
-        fun getInstance(context: Context): ConverterDatabase {
-            synchronized(this) {
-                if (INSTANCE == null) {
-                    val instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        ConverterDatabase::class.java,
-                        "converter_data_database"
-                    ).build()
-                    INSTANCE = instance
-                }
-                return INSTANCE!!
-            }
-        }
-    }
 }
