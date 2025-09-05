@@ -1,5 +1,8 @@
 package com.example.unitconverterapp
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.unitconverterapp.data.Conversion
@@ -9,6 +12,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ConverterViewModel(private val repository: ConverterRepository): ViewModel() {
+    val selectedConversion: MutableState<Conversion?> = mutableStateOf(null)
+    val inputText: MutableState<String> = mutableStateOf("")
+    val message1 = mutableStateOf("")
+    val message2 = mutableStateOf("")
+
     val resultList = repository.getSavedResults()
 
     fun getConversions() = listOf<Conversion>(

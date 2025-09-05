@@ -3,22 +3,19 @@ package com.example.unitconverterapp.compose
 import android.icu.text.DecimalFormat
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.example.unitconverterapp.data.Conversion
 
 @Composable
 fun TopScreen(
     list: List<Conversion>,
+    selectedConversion: MutableState<Conversion?>,
+    inputText: MutableState<String>,
+    message1: MutableState<String>,
+    message2: MutableState<String>,
     modifier: Modifier = Modifier,
     save: (String, String) -> Unit
 ) {
-    val selectedConversion: MutableState<Conversion?> = remember { mutableStateOf(null) }
-    val inputText: MutableState<String> = remember { mutableStateOf("") }
-    val message1 = remember { mutableStateOf("") }
-    val message2 = remember { mutableStateOf("") }
-
     ConversionMenu(list) {
         selectedConversion.value = it
     }
